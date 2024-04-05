@@ -1,31 +1,24 @@
-import React from "react";
-import { useNavigate } from "react-router-dom";
-import { useSelector } from "../../redux/store";
 import { Button, Form, Input } from "antd";
-import { logInAction } from "../../redux/actions/authAction";
-import toast from "react-hot-toast";
+import React from "react";
+import { signUpAction } from "../../redux/actions/authAction";
+import { useSelector } from "../../redux/store";
+import { useNavigate } from "react-router-dom";
 
-const Login = () => {
-  const [form] = Form.useForm();
+const SignUp = () => {
   const navigate = useNavigate();
   const users = useSelector((state) => state.auth);
 
   const onFinish = (data) => {
-    logInAction(data);
-    if (users.userData.username) {
-      navigate("/");
-      localStorage.setItem("user", JSON.stringify(users.userData));
-      toast.success("Log in successfull");
-    } else {
-      toast.error("email or password are not matched");
-      form.resetFields();
-    }
+    signUpAction(data);
+    navigate("/");
+    console.log("users", users);
   };
+
   return (
     <div className="h-screen w-full flex items-center justify-center">
       <div className="max-w-[350px] w-full bg-[#f0f5ff] p-5 rounded-xl border border-[#adc6ff]">
         <h3 className="text-center text-gray-400 font-bold text-[25px] mb-5">
-          Login
+          Sign up
         </h3>
         <Form
           name="basic"
@@ -34,6 +27,14 @@ const Login = () => {
           onFinish={onFinish}
           autoComplete="off"
         >
+          <Form.Item
+            label="Username"
+            name="username"
+            rules={[{ required: true, message: "Please input your username!" }]}
+          >
+            <Input />
+          </Form.Item>
+
           <Form.Item
             label="Email"
             name="email"
@@ -55,17 +56,17 @@ const Login = () => {
               htmlType="submit"
               className="!text-[16px] !h-fit !px-5 !font-medium"
             >
-              Log In
+              Sign Up
             </Button>
           </div>
           <div className="flex justify-center items-center mt-5">
             <p className="flex gap-1 items-center text-gray-500">
-              Don't have an account?
+              Already have an account?
               <span
-                onClick={() => navigate("/signup")}
+                onClick={() => navigate("/login")}
                 className="text-[#2f54eb] font-semibold cursor-pointer"
               >
-                Sign Up
+                Log In
               </span>
             </p>
           </div>
@@ -75,4 +76,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default SignUp;

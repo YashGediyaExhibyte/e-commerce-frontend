@@ -26,13 +26,13 @@ const Header = () => {
     {
       label: (
         <button
-        type="button"
-        onClick={()=>navigate("/login")}
-        className="flex items-center gap-3 cursor-pointer text-secondary-80 text-sm font-medium"
-      >
-        <FiLogOut className="!text-[16px]" />
-        <span>Sign Out</span>
-      </button>
+          type="button"
+          onClick={() => navigate("/signup")}
+          className="flex items-center gap-3 cursor-pointer text-secondary-80 text-sm font-medium"
+        >
+          <FiLogOut className="!text-[16px]" />
+          <span>Sign Out</span>
+        </button>
       ),
       key: "3",
     },
