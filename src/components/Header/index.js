@@ -5,9 +5,14 @@ import { LuUser2 } from "react-icons/lu";
 import { AiOutlineSetting } from "react-icons/ai";
 import avatarImg from "../../assets/images//avatar.png";
 import { useNavigate } from "react-router-dom";
+// import { dispatch } from "../../redux/store";
+import { logoutAction } from "../../redux/actions/authAction";
+import { useDispatch } from "react-redux";
+// import { useDispatch } from "../../redux/store";
 
 const Header = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch()
 
   const items = [
     {
@@ -27,7 +32,7 @@ const Header = () => {
       label: (
         <button
           type="button"
-          onClick={() => navigate("/signup")}
+          onClick={() => dispatch(logoutAction())}
           className="flex items-center gap-3 cursor-pointer text-secondary-80 text-sm font-medium"
         >
           <FiLogOut className="!text-[16px]" />

@@ -3,25 +3,21 @@ import {
   useDispatch as useAppDispatch,
   useSelector as useAppSelector,
 } from "react-redux";
-import { persistStore } from "redux-persist";
 import { rootReducer } from "./rootReducer.js";
 
 // --------------------------------------------------
 const store = configureStore({
   reducer: rootReducer,
-  middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware({
-      serializableCheck: false,
-      immutableCheck: false,
-    }),
 });
 
-const persistor = persistStore(store);
+store.subscribe(() => {
+  const { isAuthenticated, user } = store.getState().auth;
+  localStorage.setItem('isAuthenticated', isAuthenticated);
+  localStorage.setItem('user', JSON.stringify(user));
+});
 
 const { dispatch } = store;
-
 const useSelector = useAppSelector;
-
 const useDispatch = () => useAppDispatch();
 
-export { store, persistor, dispatch, useSelector, useDispatch };
+export { store, dispatch, useSelector, useDispatch };

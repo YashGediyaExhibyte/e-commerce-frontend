@@ -1,26 +1,30 @@
-import React from "react";
+import React, { useEffect } from "react";
+import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "../../redux/store";
+import { useDispatch, useSelector } from "../../redux/store";
 import { Button, Form, Input } from "antd";
 import { logInAction } from "../../redux/actions/authAction";
-import toast from "react-hot-toast";
 
 const Login = () => {
   const [form] = Form.useForm();
   const navigate = useNavigate();
-  const users = useSelector((state) => state.auth);
+  const dispatch = useDispatch(); 
+  const user = useSelector((state) => state.auth.user);
+
+  useEffect(() => {
+    if (user?.username) {
+      toast.success("Log in successful");
+      navigate("/");
+    } else {
+      toast.error("Credentials do not match");
+      form.resetFields()
+    }
+  }, [user, navigate]);
 
   const onFinish = (data) => {
-    logInAction(data);
-    if (users.userData.username) {
-      navigate("/");
-      localStorage.setItem("user", JSON.stringify(users.userData));
-      toast.success("Log in successfull");
-    } else {
-      toast.error("email or password are not matched");
-      form.resetFields();
-    }
+    dispatch(logInAction(data))
   };
+
   return (
     <div className="h-screen w-full flex items-center justify-center">
       <div className="max-w-[350px] w-full bg-[#f0f5ff] p-5 rounded-xl border border-[#adc6ff]">
